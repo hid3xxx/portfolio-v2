@@ -2,8 +2,8 @@ import { defineConfig } from 'astro/config';
 import react from '@astrojs/react';
 import mdx from '@astrojs/mdx';
 import tailwind from '@astrojs/tailwind';
+import image from '@astrojs/image';
 
-// https://astro.build/config
 export default defineConfig({
   root: '.',
   srcDir: './src',
@@ -15,10 +15,10 @@ export default defineConfig({
   build: {
     format: 'directory',
     client: './client',
-    assets: '_custom',
+    assets: '_custom'
   },
-  server: (command) => ({
-    port: command === 'dev' ? 3000 : 4000,
+  server: command => ({
+    port: command === 'dev' ? 3000 : 4000
   }),
   // markdown: {
   //   drafts: true,
@@ -26,5 +26,5 @@ export default defineConfig({
   //   remarkPlugins: [remarkToc],
   //   rehypePlugins: [rehypeMinifyHtml],
   // }
-  integrations: [react(), mdx(), tailwind()],
+  integrations: [react(), mdx(), tailwind(), image()]
 });
