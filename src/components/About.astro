@@ -1,0 +1,26 @@
+---
+import { Picture } from '@astrojs/image/components';
+import { config } from './config';
+---
+
+<section id="about" class="mb-40 h-auto flex-grow">
+  <h1 class="flex justify-center pb-16 text-3xl font-bold">{config.about.main}</h1>
+  <div
+    class="flex w-full flex-col items-center justify-center space-y-8 sm:flex-row sm:justify-end sm:space-x-16 sm:space-y-0"
+  >
+    <Picture
+      class="rounded-[20px] pointer-events-none mx-auto"
+      src="https://res.cloudinary.com/dp6bqw1vo/image/upload/v1675691185/portfolio/image_u88j1n.png"
+      widths={[200, 300]}
+      sizes="(max-width: 639px) 200px, 350px"
+      aspectRatio="1:1"
+      format="webp"
+      background="white"
+      alt="main image"
+    />
+    <div class="text-md space-y-2 sm:w-1/2 lg:text-xl">
+      <h1>{config.about.description}</h1>
+      <h1>{config.about.text}</h1>
+    </div>
+  </div>
+</section>
