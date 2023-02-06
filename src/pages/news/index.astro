@@ -1,0 +1,10 @@
+---
+import Layout from '@layouts/BaseLayout.astro';
+import { News } from '@components/News';
+---
+
+<Layout title="Hid3xxx's latest news" description="This page is Hid3xxx's latest news.">
+  <main class="flex-grow">
+    <News client:visible />
+  </main>
+</Layout>
