@@ -4,12 +4,14 @@ export const config = {
     description:
       'I am currently 24 years old. During the day I work as an employee, but at night I am involved in service creation activities in my field of interest.',
     text: 'By focusing my wisdom on the inefficiencies that still exist in our society, I work to create efficient services/products. I am currently working on food related issues around me.',
+    image: 'https://res.cloudinary.com/dp6bqw1vo/image/upload/v1675691185/portfolio/image_u88j1n.png',
   },
   works: {
     main: 'Works',
     first: {
       title: 'project-1',
       description: 'sample',
+      image: 'https://res.cloudinary.com/dp6bqw1vo/image/upload/v1675691287/portfolio/sample_nbty4u.jpg',
     },
   },
   news: {
