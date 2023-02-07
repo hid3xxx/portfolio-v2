@@ -1,0 +1,8 @@
+---
+import Layout from '@layouts/BaseLayout.astro';
+import { config } from '@components/config';
+---
+
+<Layout title="Not Found Page" description="Not Found Page">
+  <h1 class="h-screen flex-grow text-3xl font-bold">{config.error.main}</h1>
+</Layout>

@@ -1,0 +1,27 @@
+---
+import { Contact } from './Contact';
+import { config } from './config';
+---
+
+<footer class="flex w-full flex-col py-6 text-center sm:flex-row sm:items-baseline sm:justify-between sm:text-left">
+  <div class="my-2 sm:mb-0">
+    <a href={config.footer.main.href} class="text-2xl capitalize no-underline">
+      {config.footer.main.name}
+    </a>
+    <Contact client:visible />
+  </div>
+  <div>
+    <a href={config.footer.about.href} class={config.footer.style}>
+      {config.footer.about.name}
+    </a>
+    <a href={config.footer.works.href} class={config.footer.style}>
+      {config.footer.works.name}
+    </a>
+    <a href={config.footer.news.href} class={config.footer.style}>
+      {config.footer.news.name}
+    </a>
+    <a href={config.footer.contact.href} class={config.footer.style}>
+      {config.footer.contact.name}
+    </a>
+  </div>
+</footer>
