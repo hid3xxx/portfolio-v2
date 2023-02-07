@@ -1,12 +1,12 @@
 {
   "name": "portfolio-v2",
   "description": "portfolio site",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "homepage": "",
   "author": "Hid3xxx",
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "https://github.com/hid3xxx/portfolio-v2"
   },
   "private": true,
   "type": "module",
