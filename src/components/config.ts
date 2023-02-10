@@ -9,9 +9,9 @@ export const config = {
   works: {
     main: 'Works',
     first: {
-      title: 'project-1',
-      description: 'sample',
-      image: 'https://res.cloudinary.com/dp6bqw1vo/image/upload/v1675691287/portfolio/sample_nbty4u.jpg',
+      title: 'nut(tentative)',
+      description: 'The "nut" is a project for the development of optimized snacks with a focus on human appetite and health.',
+      image: 'https://res.cloudinary.com/dp6bqw1vo/image/upload/v1675881696/portfolio/works-first.jpg',
     },
   },
   news: {

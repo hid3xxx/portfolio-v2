@@ -1,23 +1,25 @@
 ---
-import { Image } from '@astrojs/image/components';
+// import { Image } from '@astrojs/image/components';
+import { Picture } from '@astrojs/image/components';
 import { config } from './config';
 ---
 
 <section id="works" class="mb-40 h-auto flex-grow">
   <h1 class="flex justify-center pb-16 text-3xl font-bold">{config.works.main}</h1>
   <div class="flex w-full flex-col justify-center space-y-8 sm:flex-row sm:justify-start sm:space-x-16 sm:space-y-0">
-    <div class="flex flex-col sm:ml-12 sm:w-3/5">
-      <h1 class="text-2xl">{config.works.first.title}</h1>
-      <p class="text-sm">{config.works.first.description}</p>
+    <div class="flex flex-col sm:w-4/5">
+      <h1 class="text-2xl font-bold">{config.works.first.title}</h1>
+      <p class="text-md lg:text-xl">{config.works.first.description}</p>
     </div>
-    <Image
-      class="sm:w-2/5 pointer-events-none mx-auto"
+    <Picture
+      class="pointer-events-none mx-auto"
       src={config.works.first.image}
-      width={1400}
-      height={900}
-      aspectRatio="16:9"
+      widths={[400, 800, 1200]}
+      sizes="(max-width: 639px) 400px, (max-width: 767px) 800px, (min-width: 768px) 1200px"
+      aspectRatio="3754:2477"
       format="webp"
-      alt="sample"
+      background="white"
+      alt="works-1"
     />
   </div>
 </section>
