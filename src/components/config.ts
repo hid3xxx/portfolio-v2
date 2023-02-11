@@ -29,29 +29,16 @@ export const config = {
       href: '',
     },
   },
-  footer: {
-    style: 'mx-2 text-base text-txtColor-gray no-underline hover:text-txtColor-light dark:hover:text-txtColor-dark',
-    main: {
-      name: 'Hid3xxx',
-      href: '/',
-    },
-    about: {
-      name: 'about',
-      href: '/#about',
-    },
-    works: {
-      name: 'works',
-      href: '/#works',
-    },
-    news: {
-      name: 'news',
-      href: '/news',
-    },
-    contact: {
-      name: 'contact',
-      href: '/#contact',
-    },
+  icon: {
+    name: 'Hid3xxx',
+    href: '/',
   },
+  links : [
+    { name: 'about', href: '/#about' },
+    { name: 'works', href: '/#works' },
+    { name: 'news', href: '/news' },
+    { name: 'contact', href: '/#contact' },
+  ],
   error: {
     main: 'Not found',
   },
