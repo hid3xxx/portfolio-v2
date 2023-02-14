@@ -15,10 +15,10 @@ export default defineConfig({
   build: {
     format: 'directory',
     client: './client',
-    assets: '_custom'
+    assets: '_custom',
   },
-  server: command => ({
-    port: command === 'dev' ? 3000 : 4000
+  server: (command) => ({
+    port: command === 'dev' ? 3000 : 4000,
   }),
   // markdown: {
   //   drafts: true,
@@ -26,5 +26,5 @@ export default defineConfig({
   //   remarkPlugins: [remarkToc],
   //   rehypePlugins: [rehypeMinifyHtml],
   // }
-  integrations: [react(), mdx(), tailwind(), image()]
+  integrations: [react(), mdx(), tailwind(), image()],
 });

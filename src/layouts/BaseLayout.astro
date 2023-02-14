@@ -31,7 +31,10 @@ const { title, description } = Astro.props;
   </body>
   <script is:inline>
     const theme = (() => {
-      if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
+      if (
+        typeof localStorage !== 'undefined' &&
+        localStorage.getItem('theme')
+      ) {
         return localStorage.getItem('theme');
       }
       if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
