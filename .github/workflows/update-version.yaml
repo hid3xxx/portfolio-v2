@@ -1,0 +1,108 @@
+name: Update the version of package.json according to the label
+
+on:
+  pull_request:
+    branches:
+      - main
+    types:
+      - labeled
+      - unlabeled
+
+jobs:
+  check_release_label:
+    runs-on: ubuntu-latest
+    steps:
+      - name: It throws an error if there is no label
+        if: |
+          !contains(github.event.pull_request.labels.*.name, 'release:patch') &&
+          !contains(github.event.pull_request.labels.*.name, 'release:minor') &&
+          !contains(github.event.pull_request.labels.*.name, 'release:major')
+        run: |
+          echo "::error::Please Assign a release label. labels: `release:patch`, `release:minor`, `release:major`"
+          exit 1
+
+  version_diff:
+    runs-on: ubuntu-latest
+    if: |
+      contains(github.event.pull_request.labels.*.name, 'release:patch') ||
+      contains(github.event.pull_request.labels.*.name, 'release:minor') ||
+      contains(github.event.pull_request.labels.*.name, 'release:major')
+    outputs:
+      changed: ${{ steps.get_diff.outputs.changed }}
+    steps:
+      - uses: actions/checkout@v3
+      - name: Get merge destination
+        run: git fetch origin ${{ github.base_ref }} --depth=1
+
+      - name: Retain version changes
+        id: get_diff
+        run: echo "changed=$(git diff origin/${{ github.base_ref }} HEAD --relative "./package.json" | grep "^+.\+version" | wc -l)" >> $GITHUB_OUTPUT
+
+  update_version:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: ['16']
+    needs: [version_diff]
+    if: needs.version_diff.outputs.changed == '0'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+
+      - name: Install Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install pnpm
+        id: pnpm-install
+        uses: pnpm/action-setup@v2
+        with:
+          version: 7
+          run_install: false
+
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
+
+      - name: Setup pnpm cache
+        uses: actions/cache@v3
+        with:
+          path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Setting up Git
+        if: steps.diff.outputs.changed == '0'
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git remote set-url origin https://github-actions:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Version update (patch)
+        if: contains(github.event.pull_request.labels.*.name, 'release:patch')
+        run: pnpm version --patch --no-git-tag-version
+
+      - name: Version update (minor)
+        if: contains(github.event.pull_request.labels.*.name, 'release:minor')
+        run: pnpm version --minor --no-git-tag-version
+
+      - name: Version update (major)
+        if: contains(github.event.pull_request.labels.*.name, 'release:major')
+        run: pnpm version --major --no-git-tag-version
+
+      - name: Push changes to PR
+        run: |
+          git add .
+          git commit -m "v$(grep version package.json | awk -F \" '{print $4}')"
+          git push origin HEAD
