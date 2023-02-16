@@ -8,18 +8,31 @@ on:
       - labeled
       - unlabeled
 
+permissions:
+  contents: write
+  pull-requests: write
+
 jobs:
   check_release_label:
     runs-on: ubuntu-latest
+    if: |
+      !contains(github.event.pull_request.labels.*.name, 'release:patch') &&
+      !contains(github.event.pull_request.labels.*.name, 'release:minor') &&
+      !contains(github.event.pull_request.labels.*.name, 'release:major')
     steps:
+      - name: Comment the warning text in the Pull Request
+        uses: actions/github-script@v5
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: 'Please Assign a release label. labels: `release:patch`, `release:minor`, `release:major`'
+            })
       - name: It throws an error if there is no label
-        if: |
-          !contains(github.event.pull_request.labels.*.name, 'release:patch') &&
-          !contains(github.event.pull_request.labels.*.name, 'release:minor') &&
-          !contains(github.event.pull_request.labels.*.name, 'release:major')
-        run: |
-          echo "::error::Please Assign a release label. labels: `release:patch`, `release:minor`, `release:major`"
-          exit 1
+        run: exit 1
 
   version_diff:
     runs-on: ubuntu-latest
@@ -56,30 +69,6 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
-      - name: Install pnpm
-        id: pnpm-install
-        uses: pnpm/action-setup@v2
-        with:
-          version: 7
-          run_install: false
-
-      - name: Get pnpm store directory
-        id: pnpm-cache
-        shell: bash
-        run: |
-          echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
-
-      - name: Setup pnpm cache
-        uses: actions/cache@v3
-        with:
-          path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-store-
-
-      - name: Install dependencies
-        run: pnpm install
-
       - name: Setting up Git
         if: steps.diff.outputs.changed == '0'
         run: |
@@ -91,15 +80,15 @@ jobs:
 
       - name: Version update (patch)
         if: contains(github.event.pull_request.labels.*.name, 'release:patch')
-        run: pnpm version --patch --no-git-tag-version
+        run: yarn version --patch --no-git-tag-version
 
       - name: Version update (minor)
         if: contains(github.event.pull_request.labels.*.name, 'release:minor')
-        run: pnpm version --minor --no-git-tag-version
+        run: yarn version --minor --no-git-tag-version
 
       - name: Version update (major)
         if: contains(github.event.pull_request.labels.*.name, 'release:major')
-        run: pnpm version --major --no-git-tag-version
+        run: yarn version --major --no-git-tag-version
 
       - name: Push changes to PR
         run: |
