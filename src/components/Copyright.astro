@@ -1,0 +1,16 @@
+---
+const yearOfPublication = 2023;
+const yearOfRenewal = new Date().getFullYear();
+
+let copyrightDate;
+
+if (yearOfPublication !== yearOfRenewal) {
+  copyrightDate = `${yearOfPublication}-${yearOfRenewal}`;
+} else {
+  copyrightDate = yearOfPublication;
+}
+---
+
+<p class="mt-2 flex justify-center text-sm text-txtColor-gray">
+  &copy;{copyrightDate} Hid3xxx
+</p>
