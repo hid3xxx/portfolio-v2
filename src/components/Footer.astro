@@ -1,20 +1,15 @@
 ---
-import { Contact } from './Contact';
-import { config } from './config';
 import Nav from './Nav.astro';
+import { Contact } from './Contact';
+import Copyright from './Copyright.astro';
 ---
 
 <footer
-  class="flex w-full flex-col py-6 text-center sm:flex-row sm:items-baseline sm:justify-between sm:text-left"
+  class="flex w-full flex-col space-y-2 py-6 text-center sm:flex-row sm:items-baseline sm:justify-between sm:text-left"
 >
-  <div class="my-2 sm:mb-0">
-    <a
-      href={config.icon.href}
-      class="text-2xl font-bold capitalize no-underline"
-    >
-      {config.icon.name}
-    </a>
-    <Contact client:visible />
-  </div>
   <Nav />
+  <div class="flex flex-col flex-wrap sm:items-start">
+    <Contact client:visible />
+    <Copyright />
+  </div>
 </footer>
