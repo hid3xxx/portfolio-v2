@@ -11,15 +11,25 @@ on:
 jobs:
   check_release_label:
     runs-on: ubuntu-latest
+    if: |
+      !contains(github.event.pull_request.labels.*.name, 'release:patch') &&
+      !contains(github.event.pull_request.labels.*.name, 'release:minor') &&
+      !contains(github.event.pull_request.labels.*.name, 'release:major')
     steps:
+      - name: Comment the warning text in the Pull Request
+        uses: actions/github-script@v5
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: 'Please Assign a release label. labels: `release:patch`, `release:minor`, `release:major`'
+            })
+
       - name: It throws an error if there is no label
-        if: |
-          !contains(github.event.pull_request.labels.*.name, 'release:patch') &&
-          !contains(github.event.pull_request.labels.*.name, 'release:minor') &&
-          !contains(github.event.pull_request.labels.*.name, 'release:major')
-        run: |
-          echo "::error::Please Assign a release label. labels: `release:patch`, `release:minor`, `release:major`"
-          exit 1
+        run: exit 1
 
   version_diff:
     runs-on: ubuntu-latest
