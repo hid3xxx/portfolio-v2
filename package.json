@@ -1,7 +1,7 @@
 {
   "name": "portfolio-v2",
   "description": "portfolio site",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "homepage": "https://hid3xxx.com/",
   "author": "Hid3xxx",
   "repository": {
@@ -16,7 +16,7 @@
     "build": "astro check && tsc --noEmit && astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "lint": "eslint --ignore-path .gitignore src",
+    "lint": "eslint --cache --cache-location node_modules/.cache/eslint --cache-strategy content --ignore-path .gitignore src",
     "lint:fix": "eslint --ignore-path .gitignore src --fix",
     "format": "prettier --write --ignore-path .gitignore \"**/*.{astro,js,jsx,ts,tsx,cjs,mjs,json,mdx}\""
   },
