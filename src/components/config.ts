@@ -23,7 +23,7 @@ export const config = {
     description: `I am currently ${getAge()} years old. During the day I work as an employee, but at night I am involved in service creation activities in my field of interest.`,
     text: 'By focusing my wisdom on the inefficiencies that still exist in our society, I work to create efficient services/products. I am currently working on food related issues around me.',
     image:
-      'https://res.cloudinary.com/dp6bqw1vo/image/upload/v1675691185/portfolio/image_u88j1n.png',
+      'https://res.cloudinary.com/dp6bqw1vo/image/upload/v1677855332/portfolio/profile.png',
   },
   works: {
     main: 'Works',
@@ -55,8 +55,8 @@ export const config = {
     href: '/',
   },
   links: [
-    { name: 'about', href: '/#about' },
-    { name: 'works', href: '/#works' },
+    { name: 'about', href: '/about' },
+    { name: 'works', href: '/works' },
     { name: 'news', href: '/news' },
     { name: 'contact', href: '/#contact' },
   ],
