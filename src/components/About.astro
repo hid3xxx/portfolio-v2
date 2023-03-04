@@ -8,17 +8,17 @@ import { config } from './config';
     {config.about.main}
   </h1>
   <div
-    class="flex w-full flex-col items-center justify-center space-y-8 sm:flex-row sm:justify-end sm:space-x-16 sm:space-y-0"
+    class="flex w-full flex-col items-center lg:justify-around xl:justify-center space-y-8 sm:flex-row sm:justify-end sm:space-x-16 sm:space-y-0"
   >
     <Picture
-      class="rounded-[20px] pointer-events-none mx-auto"
+      class="rounded-[20px] pointer-events-none"
       src={config.about.image}
-      widths={[200, 300]}
-      sizes="(max-width: 639px) 200px, 350px"
+      widths={[200, 300, 400]}
+      sizes="(max-width: 639px) 200px, (max-width: 767px) 300px, (min-width: 768px) 400px"
       aspectRatio="1:1"
       format="webp"
       background="white"
-      alt="main image"
+      alt="about image"
     />
     <div class="text-md space-y-2 sm:w-1/2 lg:text-xl">
       <p>{config.about.description}</p>
